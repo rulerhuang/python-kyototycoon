@@ -20,3 +20,9 @@ sudo python setup.py install
 ## Authors
 
 Toru Maesaka <toru@torumk.com>
+
+## Remark
+- kyototyconn项目中源码不符合PEP8标准
+- value采用pickle序列化，不利于客户端兼容(其他语言可能无法解析)
+- 网络部分采用Py2的httplib标准库(Py3中该库重命名为http.client)
+- tests/test_code.py为基本用法示例
