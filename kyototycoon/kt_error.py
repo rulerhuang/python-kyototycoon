@@ -5,15 +5,16 @@
 # Redistribution and use of this source code is licensed under
 # the BSD license. See COPYING file for license description.
 
+
 class KyotoTycoonError:
-    SUCCESS  = 0
-    NOIMPL   = 1
-    INVALID  = 2
-    LOGIC    = 3
+    SUCCESS = 0
+    NOIMPL = 1
+    INVALID = 2
+    LOGIC = 3
     INTERNAL = 4
-    NETWORK  = 5
+    NETWORK = 5
     NOTFOUND = 6
-    EMISC    = 255
+    EMISC = 255
 
     ErrorNameDict = {
         SUCCESS: "SUCCESS",

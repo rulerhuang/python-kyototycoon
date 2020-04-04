@@ -1,1 +1,1 @@
-from kyototycoon import *
+from kyototycoon import *   # noqa

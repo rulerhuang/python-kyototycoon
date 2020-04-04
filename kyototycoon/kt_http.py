@@ -20,13 +20,14 @@ except ImportError:
 # Stick with URL encoding for now. Eventually run a benchmark
 # to evaluate what the most approariate encoding algorithm is.
 KT_HTTP_HEADER = {
-  'Content-Type' : 'text/tab-separated-values; colenc=U',
+  'Content-Type': 'text/tab-separated-values; colenc=U',
 }
 
 KT_PACKER_CUSTOM = 0
 KT_PACKER_PICKLE = 1
-KT_PACKER_JSON   = 2
+KT_PACKER_JSON = 2
 KT_PACKER_STRING = 3
+
 
 class ProtocolHandler:
     def __init__(self, pickle_protocol=2):
@@ -56,11 +57,11 @@ class ProtocolHandler:
     def echo(self):
         self.conn.request('POST', '/rpc/echo')
         res = self.conn.getresponse()
-        body = res.read()
+        # body = res.read()
 
         if res.status != 200:
-           self.err.set_error(err.EMISC)
-           return False
+            self.err.set_error(self.err.EMISC)
+            return False
 
         self.err.set_success()
         return True
@@ -156,7 +157,6 @@ class ProtocolHandler:
         self.err.set_success()
         return int(self._tsv_to_dict(body)['num'])
 
-
     def get_bulk(self, keys, atomic, db):
         if not isinstance(keys, list):
             self.err.set_error(self.err.LOGIC)
@@ -197,7 +197,7 @@ class ProtocolHandler:
         rv = {}
         res_dict = self._tsv_to_dict(body)
         actual_dict = {}
-        for k,v in res_dict.items():
+        for k, v in res_dict.items():
             if content_type == 'text/tab-separated-values; colenc=B':
                 actual_dict[base64.decodestring(k)] = base64.decodestring(v)
             elif content_type == 'text/tab-separated-values; colenc=U':
@@ -210,17 +210,16 @@ class ProtocolHandler:
         if n == 0:
             self.err.set_error(self.err.NOTFOUND)
             return None
-        
+
         for k, v in actual_dict.items():
             if v is not None:
                 try:
                     rv[k[1:]] = self.unpack(v)
-                except: 
+                except Exception:
                     rv[k[1:]] = None
-                    
+
         self.err.set_success()
         return rv
-
 
     def get_int(self, key, db=None):
         if key is None:
@@ -252,7 +251,7 @@ class ProtocolHandler:
 
         self.conn.request('GET', path)
         res = self.conn.getresponse()
-        body = res.read()
+        # body = res.read()
 
         if res.status != 200:
             self.err.set_error(self.err.EMISC)
@@ -307,7 +306,7 @@ class ProtocolHandler:
         if db:
             path += '?DB=' + db
 
-        request_dict = { 'regex': regex }
+        request_dict = {'regex': regex}
         if max:
             request_dict['max'] = max
 
@@ -384,7 +383,7 @@ class ProtocolHandler:
         if db:
             path += '?DB=' + db
 
-        request_dict = { 'key': key }
+        request_dict = {'key': key}
 
         if old_val:
             request_dict['oval'] = urllib.quote(self.pack(old_val), safe='')
@@ -399,7 +398,7 @@ class ProtocolHandler:
                           headers=KT_HTTP_HEADER)
 
         res = self.conn.getresponse()
-        body = res.read()
+        # body = res.read()
 
         if res.status != 200:
             self.err.set_error(self.err.EMISC)
@@ -419,7 +418,7 @@ class ProtocolHandler:
         key = urllib.quote(key.encode('UTF-8'), safe='')
         self.conn.request('DELETE', key)
         rv = self.conn.getresponse()
-        body = rv.read()
+        # body = rv.read()
 
         if rv.status != 204:
             self.err.set_error(self.err.NOTFOUND)
@@ -556,7 +555,7 @@ class ProtocolHandler:
 
         self.conn.request('GET', url)
         res = self.conn.getresponse()
-        body = res.read()
+        # body = res.read()
 
         if res.status != 200:
             self.err.set_error(self.err.EMISC)
@@ -589,14 +588,15 @@ class ProtocolHandler:
         return rv
 
     def _rest_put(self, operation, key, value, expire):
-        headers = { 'X-Kt-Mode' : operation }
-        if expire != None:
-            expire = int(time.time()) + expire;
+        headers = {'X-Kt-Mode': operation}
+        if expire is not None:
+            expire = int(time.time()) + expire
             headers["X-Kt-Xt"] = str(expire)
 
         self.conn.request('PUT', key, value, headers)
         rv = self.conn.getresponse()
-        body = rv.read()
+        # body = rv.read()
+        rv.read()
         return rv.status
 
     def _pickle_packer(self, data):
