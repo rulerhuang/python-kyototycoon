@@ -26,3 +26,4 @@ Toru Maesaka <toru@torumk.com>
 - value采用pickle序列化，不利于客户端兼容(其他语言可能无法解析)
 - 网络部分采用Py2的httplib标准库(Py3中该库重命名为http.client)
 - tests/test_code.py为基本用法示例
+- kct#opts=1#rcomp=lexdesc#bnum=1000000#msize=1g#dfunit=8,set性能在3000qps左右，get性能在3500qps左右
