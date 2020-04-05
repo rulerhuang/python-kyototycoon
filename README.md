@@ -25,5 +25,5 @@ Toru Maesaka <toru@torumk.com>
 - kyototyconn项目中源码不符合PEP8标准
 - value采用pickle序列化，不利于客户端兼容(其他语言可能无法解析)
 - 网络部分采用Py2的httplib标准库(Py3中该库重命名为http.client)
-- tests/test_code.py为基本用法示例
+- tests/test_code.py为基本用法示例,目前只支持简单的API接口(例如set、get、set_bulk、get_bulk)，不支持其他复杂的API接口(例如游标类的jump、step等)
 - kct#opts=1#rcomp=lexdesc#bnum=1000000#msize=1g#dfunit=8,set性能在3000qps左右，get性能在3500qps左右
